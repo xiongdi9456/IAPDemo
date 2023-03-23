@@ -8,11 +8,13 @@
 
 #import "ViewController.h"
 
-static NSString * const productId = @"com.picovr.picovr.test.0001";
+static NSString * const productId = @"com.aplusjapan.sdkdevelop.item1";
 
 @interface ViewController ()<IApRequestResultsDelegate>
 
 @property (nonatomic, strong) UIButton *payBtn;
+
+@property (nonatomic, strong) UIButton *payBtn2;
 
 @end
 
@@ -44,17 +46,42 @@ static NSString * const productId = @"com.picovr.picovr.test.0001";
     
     [self.payBtn addTarget:self action:@selector(payClick) forControlEvents:UIControlEventTouchUpInside];
     
+    
+   
+    
+    self.payBtn2 = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.payBtn2.frame = CGRectMake(0, 0, 200, 50);
+    self.payBtn2.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/3);
+    [self.payBtn2 setTitle:@"购买2" forState:UIControlStateNormal];
+    [self.payBtn2 setTintColor:[UIColor blackColor]];
+    self.payBtn2.layer.masksToBounds = YES;
+    self.payBtn2.layer.cornerRadius = 5;
+    self.payBtn2.layer.borderWidth = 1;
+    self.payBtn2.layer.borderColor = [UIColor blackColor].CGColor;
+    [self.view addSubview:self.payBtn2];
+    
+    [self.payBtn2 addTarget:self action:@selector(payClick2) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 #pragma mark 购买行为
 - (void)payClick {
+    NSString* cpOrderId = [NSString uuid];
 
-    [[IAPManager shared] requestProductWithId:productId];
+    [[IAPManager shared] purchaseWithProductId:productId AndCpOrderId:cpOrderId];
+    
+}
+
+#pragma mark 购买行为
+- (void)payClick2 {
+    NSString* cpOrderId = [NSString uuid];
+
+    [[IAPManager shared] purchaseWithProductId:@"com.aplusjapan.sdkdevelop.item2" AndCpOrderId:cpOrderId];
     
 }
 
 #pragma mark IApRequestResultsDelegate
-- (void)filedWithErrorCode:(NSInteger)errorCode andError:(NSString *)error {
+- (void)failedWithErrorCode:(NSInteger)errorCode andError:(NSString *)error {
 
     switch (errorCode) {
         case IAP_FILEDCOED_APPLECODE:
@@ -85,8 +112,5 @@ static NSString * const productId = @"com.picovr.picovr.test.0001";
             break;
     }
 }
-
-
-
 
 @end

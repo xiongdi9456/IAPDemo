@@ -40,7 +40,7 @@
 
 + (NSString *)iapReceiptPath {
     
-    NSString *path = [[self libPrefPath] stringByAppendingFormat:@"/EACEF35FE363A75A"];
+    NSString *path = [[self libPrefPath] stringByAppendingFormat:@"/APlusIapOrders"];
     [self hasLive:path];
     return path;
 }
